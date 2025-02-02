@@ -71,4 +71,15 @@ class HistoricalValue {
     required this.date,
     required this.value,
   });
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is HistoricalValue &&
+        other.date == date &&
+        other.value == value;
+  }
+
+  @override
+  int get hashCode => Object.hash(date, value);
 }
