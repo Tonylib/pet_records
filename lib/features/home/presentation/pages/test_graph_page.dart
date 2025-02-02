@@ -27,7 +27,7 @@ class TestGraphPage extends StatelessWidget {
     // Calculate nice round numbers for the axis
     final yMin = (minValue - valueRange * 0.1).floorToDouble();
     final yMax = (maxValue + valueRange * 0.1).ceilToDouble();
-    final yInterval = ((yMax - yMin) / 10).roundToDouble();
+    final yInterval = 50.0; // Fixed interval for blood glucose
 
     return Scaffold(
       appBar: AppBar(
@@ -51,19 +51,28 @@ class TestGraphPage extends StatelessWidget {
                   gridData: FlGridData(
                     show: true,
                     drawVerticalLine: true,
+                    drawHorizontalLine: true,
                     horizontalInterval: yInterval,
                     verticalInterval: 1,
                     getDrawingHorizontalLine: (value) {
                       return FlLine(
                         color: Colors.black12,
                         strokeWidth: 1,
+                        dashArray: [5, 5],
                       );
                     },
                     getDrawingVerticalLine: (value) {
                       return FlLine(
                         color: Colors.black12,
                         strokeWidth: 1,
+                        dashArray: [5, 5],
                       );
+                    },
+                    checkToShowHorizontalLine: (value) {
+                      return value % yInterval == 0;
+                    },
+                    checkToShowVerticalLine: (value) {
+                      return value.toInt() < allValues.length;
                     },
                   ),
                   titlesData: FlTitlesData(
@@ -94,10 +103,19 @@ class TestGraphPage extends StatelessWidget {
                         reservedSize: 50,
                         interval: yInterval,
                         getTitlesWidget: (value, meta) {
-                          return Text(
-                            value.toStringAsFixed(1),
-                            style: const TextStyle(fontSize: 12),
-                          );
+                          if (value % yInterval == 0) {
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: Text(
+                                value.toInt().toString(),
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            );
+                          }
+                          return const SizedBox();
                         },
                       ),
                     ),
@@ -108,8 +126,8 @@ class TestGraphPage extends StatelessWidget {
                       sideTitles: SideTitles(showTitles: false),
                     ),
                   ),
-                  minY: yMin,
-                  maxY: yMax,
+                  minY: 0, // Start from 0 for blood glucose
+                  maxY: 500, // Max range for blood glucose
                   minX: -0.5,
                   maxX: allValues.length - 0.5,
                   clipData: FlClipData.all(),
@@ -151,12 +169,12 @@ class TestGraphPage extends StatelessWidget {
                   rangeAnnotations: RangeAnnotations(
                     horizontalRangeAnnotations: [
                       HorizontalRangeAnnotation(
-                        y1: testResult.dangerouslyLowThreshold,
-                        y2: testResult.slightlyLowThreshold,
+                        y1: 0,
+                        y2: testResult.dangerouslyLowThreshold,
                         color: Colors.red.withOpacity(0.1),
                       ),
                       HorizontalRangeAnnotation(
-                        y1: testResult.slightlyLowThreshold,
+                        y1: testResult.dangerouslyLowThreshold,
                         y2: testResult.minRange,
                         color: Colors.orange.withOpacity(0.1),
                       ),
@@ -167,29 +185,13 @@ class TestGraphPage extends StatelessWidget {
                       ),
                       HorizontalRangeAnnotation(
                         y1: testResult.maxRange,
-                        y2: testResult.slightlyHighThreshold,
+                        y2: testResult.dangerouslyHighThreshold,
                         color: Colors.orange.withOpacity(0.1),
                       ),
                       HorizontalRangeAnnotation(
-                        y1: testResult.slightlyHighThreshold,
-                        y2: testResult.dangerouslyHighThreshold,
+                        y1: testResult.dangerouslyHighThreshold,
+                        y2: 500,
                         color: Colors.red.withOpacity(0.1),
-                      ),
-                    ],
-                  ),
-                  extraLinesData: ExtraLinesData(
-                    horizontalLines: [
-                      HorizontalLine(
-                        y: testResult.minRange,
-                        color: Colors.green.withOpacity(0.5),
-                        strokeWidth: 1,
-                        dashArray: [5, 5],
-                      ),
-                      HorizontalLine(
-                        y: testResult.maxRange,
-                        color: Colors.green.withOpacity(0.5),
-                        strokeWidth: 1,
-                        dashArray: [5, 5],
                       ),
                     ],
                   ),
@@ -211,19 +213,19 @@ class TestGraphPage extends StatelessWidget {
                     _buildRangeRow(
                       context,
                       'Normal',
-                      '${testResult.minRange} - ${testResult.maxRange}',
+                      '${testResult.minRange.toInt()} - ${testResult.maxRange.toInt()}',
                       Colors.green,
                     ),
                     _buildRangeRow(
                       context,
                       'Elevated',
-                      '< ${testResult.minRange} or > ${testResult.maxRange}',
+                      '< ${testResult.minRange.toInt()} or > ${testResult.maxRange.toInt()}',
                       Colors.orange,
                     ),
                     _buildRangeRow(
                       context,
                       'Dangerous',
-                      '< ${testResult.dangerouslyLowThreshold.toStringAsFixed(1)} or > ${testResult.dangerouslyHighThreshold.toStringAsFixed(1)}',
+                      '< ${testResult.dangerouslyLowThreshold.toInt()} or > ${testResult.dangerouslyHighThreshold.toInt()}',
                       Colors.red,
                     ),
                     const Divider(),
@@ -233,7 +235,7 @@ class TestGraphPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      '${testResult.value} ${testResult.unit}',
+                      '${testResult.value.toInt()} ${testResult.unit}',
                       style: TextStyle(
                         color: switch (
                             testResult.getStatusForValue(testResult.value)) {
