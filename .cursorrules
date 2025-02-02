@@ -1,0 +1,7 @@
+When producing code, follow these guidelines:
+
+- Use Flutter 3.27.1
+- For state management, use GetX
+- For API calls, use Dio
+- For routing, use GetX
+
