@@ -94,6 +94,24 @@ class PetRecordsRepository {
       date: DateTime(2024, 1, 10),
       veterinarian: 'Dr. Wilson',
     ),
+    // New dangerous blood glucose test for Luna
+    TestResult(
+      id: 'test6',
+      petId: 'cat1',
+      testName: 'Blood Glucose',
+      result: 'Dangerous',
+      unit: 'mg/dL',
+      value: 450.0,
+      minRange: 80.0,
+      maxRange: 150.0,
+      date: DateTime(2024, 2, 1),
+      veterinarian: 'Dr. Wilson',
+      historicalValues: [
+        HistoricalValue(date: DateTime(2023, 8, 1), value: 120.0),
+        HistoricalValue(date: DateTime(2023, 10, 1), value: 180.0),
+        HistoricalValue(date: DateTime(2023, 12, 1), value: 350.0),
+      ],
+    ),
     // Duck test results
     TestResult(
       id: 'test5',
