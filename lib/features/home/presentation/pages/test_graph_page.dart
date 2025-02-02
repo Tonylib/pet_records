@@ -25,9 +25,10 @@ class TestGraphPage extends StatelessWidget {
     final valueRange = maxValue - minValue;
 
     // Calculate nice round numbers for the axis
-    final yMin = (minValue - valueRange * 0.1).floorToDouble();
-    final yMax = (maxValue + valueRange * 0.1).ceilToDouble();
-    final yInterval = 50.0; // Fixed interval for blood glucose
+    final yMin = ((minValue - valueRange * 0.2) / 10).floor() * 10.0;
+    final yMax = ((maxValue + valueRange * 0.2) / 10).ceil() * 10.0;
+    final yInterval =
+        ((yMax - yMin) / 6).round() / 2 * 10.0; // Ensure it's a multiple of 10
 
     return Scaffold(
       appBar: AppBar(
@@ -126,8 +127,8 @@ class TestGraphPage extends StatelessWidget {
                       sideTitles: SideTitles(showTitles: false),
                     ),
                   ),
-                  minY: 0, // Start from 0 for blood glucose
-                  maxY: 500, // Max range for blood glucose
+                  minY: yMin,
+                  maxY: yMax,
                   minX: -0.5,
                   maxX: allValues.length - 0.5,
                   clipData: FlClipData.all(),
@@ -169,7 +170,7 @@ class TestGraphPage extends StatelessWidget {
                   rangeAnnotations: RangeAnnotations(
                     horizontalRangeAnnotations: [
                       HorizontalRangeAnnotation(
-                        y1: 0,
+                        y1: yMin,
                         y2: testResult.dangerouslyLowThreshold,
                         color: Colors.red.withOpacity(0.1),
                       ),
@@ -190,7 +191,7 @@ class TestGraphPage extends StatelessWidget {
                       ),
                       HorizontalRangeAnnotation(
                         y1: testResult.dangerouslyHighThreshold,
-                        y2: 500,
+                        y2: yMax,
                         color: Colors.red.withOpacity(0.1),
                       ),
                     ],
