@@ -9,6 +9,7 @@ class TestResult {
   final double maxRange;
   final DateTime date;
   final String veterinarian;
+  final List<HistoricalValue> historicalValues;
 
   const TestResult({
     required this.id,
@@ -21,9 +22,11 @@ class TestResult {
     required this.maxRange,
     required this.date,
     required this.veterinarian,
+    this.historicalValues = const [],
   });
 
   bool get isNormal => value >= minRange && value <= maxRange;
+  bool get hasHistoricalData => historicalValues.isNotEmpty;
 
   @override
   String toString() =>
@@ -58,4 +61,14 @@ class TestResult {
         date,
         veterinarian,
       );
+}
+
+class HistoricalValue {
+  final DateTime date;
+  final double value;
+
+  const HistoricalValue({
+    required this.date,
+    required this.value,
+  });
 }

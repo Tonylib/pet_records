@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../data/repositories/pet_records_repository.dart';
 import '../../domain/models/pet.dart';
+import 'test_graph_page.dart';
 
 class TestResultsPage extends StatelessWidget {
   final repository = PetRecordsRepository();
@@ -43,9 +44,28 @@ class TestResultsPage extends StatelessWidget {
                         subtitle: Text(
                           '${test.result} • ${test.value} ${test.unit}',
                         ),
-                        trailing: Icon(
-                          test.isNormal ? Icons.check_circle : Icons.warning,
-                          color: test.isNormal ? Colors.green : Colors.orange,
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (test.hasHistoricalData) ...[
+                              IconButton(
+                                icon: const Icon(Icons.show_chart),
+                                onPressed: () => Get.to(
+                                  () => TestGraphPage(testResult: test),
+                                  transition: Transition.zoom,
+                                ),
+                                tooltip: 'View Historical Data',
+                              ),
+                              const SizedBox(width: 8),
+                            ],
+                            Icon(
+                              test.isNormal
+                                  ? Icons.check_circle
+                                  : Icons.warning,
+                              color:
+                                  test.isNormal ? Colors.green : Colors.orange,
+                            ),
+                          ],
                         ),
                       ))
                   .toList(),

@@ -41,6 +41,11 @@ class PetRecordsRepository {
       maxRange: 12.5,
       date: DateTime(2024, 2, 1),
       veterinarian: 'Dr. Smith',
+      historicalValues: [
+        HistoricalValue(date: DateTime(2023, 8, 1), value: 7.2),
+        HistoricalValue(date: DateTime(2023, 10, 15), value: 7.8),
+        HistoricalValue(date: DateTime(2023, 12, 1), value: 8.1),
+      ],
     ),
     TestResult(
       id: 'test2',
@@ -53,6 +58,11 @@ class PetRecordsRepository {
       maxRange: 4.0,
       date: DateTime(2024, 1, 15),
       veterinarian: 'Dr. Johnson',
+      historicalValues: [
+        HistoricalValue(date: DateTime(2023, 7, 15), value: 2.5),
+        HistoricalValue(date: DateTime(2023, 9, 15), value: 3.2),
+        HistoricalValue(date: DateTime(2023, 11, 15), value: 4.1),
+      ],
     ),
     // Cat test results
     TestResult(
@@ -66,6 +76,11 @@ class PetRecordsRepository {
       maxRange: 2.4,
       date: DateTime(2024, 1, 20),
       veterinarian: 'Dr. Wilson',
+      historicalValues: [
+        HistoricalValue(date: DateTime(2023, 7, 20), value: 1.4),
+        HistoricalValue(date: DateTime(2023, 9, 20), value: 1.3),
+        HistoricalValue(date: DateTime(2023, 11, 20), value: 1.2),
+      ],
     ),
     TestResult(
       id: 'test4',
