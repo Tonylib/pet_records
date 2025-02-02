@@ -28,6 +28,23 @@ class TestResult {
   bool get isNormal => value >= minRange && value <= maxRange;
   bool get hasHistoricalData => historicalValues.isNotEmpty;
 
+  // Helper methods for range calculations
+  double get range => maxRange - minRange;
+  double get dangerouslyLowThreshold => minRange - (range * 0.2);
+  double get dangerouslyHighThreshold => maxRange + (range * 0.2);
+  double get slightlyLowThreshold => minRange - (range * 0.1);
+  double get slightlyHighThreshold => maxRange + (range * 0.1);
+
+  // Helper method to determine status based on a value
+  String getStatusForValue(double value) {
+    if (value < dangerouslyLowThreshold || value > dangerouslyHighThreshold) {
+      return 'dangerous';
+    } else if (value < minRange || value > maxRange) {
+      return 'elevated';
+    }
+    return 'normal';
+  }
+
   @override
   String toString() =>
       'TestResult(id: $id, petId: $petId, testName: $testName, result: $result, unit: $unit, value: $value, range: $minRange-$maxRange, date: $date, veterinarian: $veterinarian)';
