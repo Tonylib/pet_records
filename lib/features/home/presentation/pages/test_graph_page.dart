@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../../domain/models/test_result.dart';
+import 'package:intl/intl.dart';
 
 class TestGraphPage extends StatelessWidget {
   final TestResult testResult;
@@ -17,14 +18,16 @@ class TestGraphPage extends StatelessWidget {
       HistoricalValue(date: testResult.date, value: testResult.value),
     ]..sort((a, b) => a.date.compareTo(b.date));
 
-    // Find the min and max values for the y-axis
+    // Find the min and max values for the y-axis with padding
     final allTestValues = allValues.map((v) => v.value).toList();
-    final minValue =
-        (allTestValues.reduce((a, b) => a < b ? a : b) - testResult.range * 0.3)
-            .clamp(testResult.dangerouslyLowThreshold, double.infinity);
-    final maxValue = (allTestValues.reduce((a, b) => a > b ? a : b) +
-            testResult.range * 0.3)
-        .clamp(double.negativeInfinity, testResult.dangerouslyHighThreshold);
+    final maxValue = allTestValues.reduce((a, b) => a > b ? a : b);
+    final minValue = allTestValues.reduce((a, b) => a < b ? a : b);
+    final valueRange = maxValue - minValue;
+
+    // Calculate nice round numbers for the axis
+    final yMin = (minValue - valueRange * 0.1).floorToDouble();
+    final yMax = (maxValue + valueRange * 0.1).ceilToDouble();
+    final yInterval = ((yMax - yMin) / 10).roundToDouble();
 
     return Scaffold(
       appBar: AppBar(
@@ -48,7 +51,7 @@ class TestGraphPage extends StatelessWidget {
                   gridData: FlGridData(
                     show: true,
                     drawVerticalLine: true,
-                    horizontalInterval: 0.5,
+                    horizontalInterval: yInterval,
                     verticalInterval: 1,
                     getDrawingHorizontalLine: (value) {
                       return FlLine(
@@ -67,14 +70,17 @@ class TestGraphPage extends StatelessWidget {
                     bottomTitles: AxisTitles(
                       sideTitles: SideTitles(
                         showTitles: true,
+                        reservedSize: 30,
+                        interval: 1,
                         getTitlesWidget: (value, meta) {
                           if (value.toInt() >= 0 &&
                               value.toInt() < allValues.length) {
+                            final date = allValues[value.toInt()].date;
                             return Padding(
-                              padding: const EdgeInsets.all(4.0),
+                              padding: const EdgeInsets.only(top: 8.0),
                               child: Text(
-                                '${allValues[value.toInt()].date.month}/${allValues[value.toInt()].date.day}',
-                                style: const TextStyle(fontSize: 10),
+                                DateFormat('M/d').format(date),
+                                style: const TextStyle(fontSize: 12),
                               ),
                             );
                           }
@@ -85,8 +91,14 @@ class TestGraphPage extends StatelessWidget {
                     leftTitles: AxisTitles(
                       sideTitles: SideTitles(
                         showTitles: true,
-                        reservedSize: 40,
-                        interval: 0.5,
+                        reservedSize: 50,
+                        interval: yInterval,
+                        getTitlesWidget: (value, meta) {
+                          return Text(
+                            value.toStringAsFixed(1),
+                            style: const TextStyle(fontSize: 12),
+                          );
+                        },
                       ),
                     ),
                     topTitles: const AxisTitles(
@@ -96,8 +108,10 @@ class TestGraphPage extends StatelessWidget {
                       sideTitles: SideTitles(showTitles: false),
                     ),
                   ),
-                  minY: minValue,
-                  maxY: maxValue,
+                  minY: yMin,
+                  maxY: yMax,
+                  minX: -0.5,
+                  maxX: allValues.length - 0.5,
                   clipData: FlClipData.all(),
                   borderData: FlBorderData(
                     show: true,
