@@ -45,7 +45,24 @@ class TestGraphPage extends StatelessWidget {
             Expanded(
               child: LineChart(
                 LineChartData(
-                  gridData: const FlGridData(show: true),
+                  gridData: FlGridData(
+                    show: true,
+                    drawVerticalLine: true,
+                    horizontalInterval: 0.5,
+                    verticalInterval: 1,
+                    getDrawingHorizontalLine: (value) {
+                      return FlLine(
+                        color: Colors.black12,
+                        strokeWidth: 1,
+                      );
+                    },
+                    getDrawingVerticalLine: (value) {
+                      return FlLine(
+                        color: Colors.black12,
+                        strokeWidth: 1,
+                      );
+                    },
+                  ),
                   titlesData: FlTitlesData(
                     bottomTitles: AxisTitles(
                       sideTitles: SideTitles(
@@ -69,6 +86,7 @@ class TestGraphPage extends StatelessWidget {
                       sideTitles: SideTitles(
                         showTitles: true,
                         reservedSize: 40,
+                        interval: 0.5,
                       ),
                     ),
                     topTitles: const AxisTitles(
@@ -80,7 +98,11 @@ class TestGraphPage extends StatelessWidget {
                   ),
                   minY: minValue,
                   maxY: maxValue,
-                  borderData: FlBorderData(show: true),
+                  clipData: FlClipData.all(),
+                  borderData: FlBorderData(
+                    show: true,
+                    border: Border.all(color: Colors.black12),
+                  ),
                   lineBarsData: [
                     LineChartBarData(
                       spots: List.generate(
@@ -112,48 +134,7 @@ class TestGraphPage extends StatelessWidget {
                     ),
                   ],
                   backgroundColor: Colors.white,
-                  extraLinesData: ExtraLinesData(
-                    horizontalLines: [
-                      HorizontalLine(
-                        y: testResult.dangerouslyLowThreshold,
-                        color: Colors.red.withOpacity(0.3),
-                        strokeWidth: 1,
-                      ),
-                      HorizontalLine(
-                        y: testResult.slightlyLowThreshold,
-                        color: Colors.orange.withOpacity(0.3),
-                        strokeWidth: 1,
-                      ),
-                      HorizontalLine(
-                        y: testResult.minRange,
-                        color: Colors.green.withOpacity(0.3),
-                        strokeWidth: 2,
-                      ),
-                      HorizontalLine(
-                        y: testResult.maxRange,
-                        color: Colors.green.withOpacity(0.3),
-                        strokeWidth: 2,
-                      ),
-                      HorizontalLine(
-                        y: testResult.slightlyHighThreshold,
-                        color: Colors.orange.withOpacity(0.3),
-                        strokeWidth: 1,
-                      ),
-                      HorizontalLine(
-                        y: testResult.dangerouslyHighThreshold,
-                        color: Colors.red.withOpacity(0.3),
-                        strokeWidth: 1,
-                      ),
-                    ],
-                  ),
                   rangeAnnotations: RangeAnnotations(
-                    verticalRangeAnnotations: [
-                      VerticalRangeAnnotation(
-                        x1: -1,
-                        x2: allValues.length.toDouble(),
-                        color: Colors.red.withOpacity(0.1),
-                      ),
-                    ],
                     horizontalRangeAnnotations: [
                       HorizontalRangeAnnotation(
                         y1: testResult.dangerouslyLowThreshold,
@@ -182,6 +163,22 @@ class TestGraphPage extends StatelessWidget {
                       ),
                     ],
                   ),
+                  extraLinesData: ExtraLinesData(
+                    horizontalLines: [
+                      HorizontalLine(
+                        y: testResult.minRange,
+                        color: Colors.green.withOpacity(0.5),
+                        strokeWidth: 1,
+                        dashArray: [5, 5],
+                      ),
+                      HorizontalLine(
+                        y: testResult.maxRange,
+                        color: Colors.green.withOpacity(0.5),
+                        strokeWidth: 1,
+                        dashArray: [5, 5],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -206,7 +203,7 @@ class TestGraphPage extends StatelessWidget {
                     _buildRangeRow(
                       context,
                       'Elevated',
-                      '${testResult.slightlyLowThreshold.toStringAsFixed(1)} - ${testResult.slightlyHighThreshold.toStringAsFixed(1)}',
+                      '< ${testResult.minRange} or > ${testResult.maxRange}',
                       Colors.orange,
                     ),
                     _buildRangeRow(
