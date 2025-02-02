@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../data/repositories/pet_records_repository.dart';
 import '../../domain/models/pet.dart';
+import '../../domain/models/test_result.dart';
 import 'test_graph_page.dart';
 
 class TestResultsPage extends StatelessWidget {
-  final repository = PetRecordsRepository();
+  final PetRecordsRepository repository = PetRecordsRepository();
 
   TestResultsPage({super.key});
 
@@ -25,54 +26,99 @@ class TestResultsPage extends StatelessWidget {
         itemBuilder: (context, index) {
           final pet = pets[index];
           final testResults = repository.getTestResultsForPet(pet.id);
+          final latestTest = testResults.isNotEmpty
+              ? testResults.reduce((a, b) => a.date.isAfter(b.date) ? a : b)
+              : null;
 
           return Card(
+            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: ExpansionTile(
-              leading: Icon(
-                Icons.pets,
-                color: Theme.of(context).colorScheme.primary,
-              ),
+              leading: const Icon(Icons.pets, size: 32),
               title: Text(
                 pet.name,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              subtitle:
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   Text('${pet.species} • ${pet.breed} • ${pet.age} years old'),
-              children: testResults
-                  .map((test) => ListTile(
-                        title: Text(test.testName),
-                        subtitle: Text(
-                          '${test.result} • ${test.value} ${test.unit}',
+                  if (latestTest?.currentStatus != null) ...[
+                    const SizedBox(height: 4),
+                    Transform.scale(
+                      scale: 0.85,
+                      child: Chip(
+                        label: Text(
+                          latestTest!.currentStatus!.type.name.toUpperCase(),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 11,
+                          ),
                         ),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            if (test.hasHistoricalData) ...[
-                              IconButton(
-                                icon: const Icon(Icons.show_chart),
-                                onPressed: () => Get.to(
-                                  () => TestGraphPage(testResult: test),
-                                  transition: Transition.zoom,
-                                ),
-                                tooltip: 'View Historical Data',
-                              ),
-                              const SizedBox(width: 8),
-                            ],
-                            Icon(
-                              test.isNormal
-                                  ? Icons.check_circle
-                                  : Icons.warning,
-                              color:
-                                  test.isNormal ? Colors.green : Colors.orange,
+                        backgroundColor: latestTest.currentStatus!.type.color,
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        padding: const EdgeInsets.symmetric(horizontal: 2),
+                        labelPadding: const EdgeInsets.symmetric(horizontal: 8),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+              children: [
+                ...testResults.map((test) => ListTile(
+                      onTap: test.hasHistoricalData
+                          ? () => Get.to(() => TestGraphPage(testResult: test))
+                          : null,
+                      title: Text(test.testName),
+                      subtitle: Text(
+                        '${test.value} ${test.unit} • ${test.date.toString().split(' ')[0]}',
+                      ),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (test.hasHistoricalData)
+                            const Icon(Icons.show_chart, color: Colors.blue),
+                          const SizedBox(width: 8),
+                          Text(
+                            test.currentStatus?.type ==
+                                    TestStatusType.processing
+                                ? 'Pending'
+                                : test.result,
+                            style: TextStyle(
+                              color: test.currentStatus?.type ==
+                                      TestStatusType.processing
+                                  ? Colors.orange
+                                  : _getResultColor(test.result),
+                              fontWeight: FontWeight.bold,
                             ),
-                          ],
-                        ),
-                      ))
-                  .toList(),
+                          ),
+                        ],
+                      ),
+                    )),
+              ],
             ),
           );
         },
       ),
     );
+  }
+
+  Color _getResultColor(String result) {
+    switch (result.toLowerCase()) {
+      case 'normal':
+        return Colors.green;
+      case 'high':
+        return Colors.orange;
+      case 'low':
+        return Colors.orange;
+      case 'dangerous':
+        return Colors.red;
+      case 'negative':
+        return Colors.green;
+      case 'positive':
+        return Colors.red;
+      default:
+        return Colors.grey;
+    }
   }
 }

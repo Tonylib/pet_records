@@ -46,6 +46,20 @@ class PetRecordsRepository {
         HistoricalValue(date: DateTime(2023, 10, 15), value: 7.8),
         HistoricalValue(date: DateTime(2023, 12, 1), value: 8.1),
       ],
+      statusHistory: [
+        TestStatus(
+          type: TestStatusType.ordered,
+          date: DateTime(2024, 2, 1, 9, 0),
+        ),
+        TestStatus(
+          type: TestStatusType.processing,
+          date: DateTime(2024, 2, 1, 10, 30),
+        ),
+        TestStatus(
+          type: TestStatusType.complete,
+          date: DateTime(2024, 2, 1, 11, 45),
+        ),
+      ],
     ),
     TestResult(
       id: 'test2',
@@ -62,6 +76,28 @@ class PetRecordsRepository {
         HistoricalValue(date: DateTime(2023, 7, 15), value: 2.5),
         HistoricalValue(date: DateTime(2023, 9, 15), value: 3.2),
         HistoricalValue(date: DateTime(2023, 11, 15), value: 4.1),
+      ],
+      statusHistory: [
+        TestStatus(
+          type: TestStatusType.ordered,
+          date: DateTime(2024, 1, 15, 8, 0),
+        ),
+        TestStatus(
+          type: TestStatusType.processing,
+          date: DateTime(2024, 1, 15, 9, 30),
+        ),
+        TestStatus(
+          type: TestStatusType.error,
+          date: DateTime(2024, 1, 15, 10, 15),
+        ),
+        TestStatus(
+          type: TestStatusType.processing,
+          date: DateTime(2024, 1, 15, 11, 0),
+        ),
+        TestStatus(
+          type: TestStatusType.complete,
+          date: DateTime(2024, 1, 15, 12, 30),
+        ),
       ],
     ),
     // Cat test results
@@ -81,6 +117,20 @@ class PetRecordsRepository {
         HistoricalValue(date: DateTime(2023, 9, 20), value: 1.3),
         HistoricalValue(date: DateTime(2023, 11, 20), value: 1.2),
       ],
+      statusHistory: [
+        TestStatus(
+          type: TestStatusType.ordered,
+          date: DateTime(2024, 1, 20, 13, 0),
+        ),
+        TestStatus(
+          type: TestStatusType.processing,
+          date: DateTime(2024, 1, 20, 14, 30),
+        ),
+        TestStatus(
+          type: TestStatusType.complete,
+          date: DateTime(2024, 1, 20, 15, 45),
+        ),
+      ],
     ),
     TestResult(
       id: 'test4',
@@ -93,6 +143,20 @@ class PetRecordsRepository {
       maxRange: 0.0,
       date: DateTime(2024, 1, 10),
       veterinarian: 'Dr. Wilson',
+      statusHistory: [
+        TestStatus(
+          type: TestStatusType.ordered,
+          date: DateTime(2024, 1, 10, 9, 0),
+        ),
+        TestStatus(
+          type: TestStatusType.processing,
+          date: DateTime(2024, 1, 10, 10, 0),
+        ),
+        TestStatus(
+          type: TestStatusType.complete,
+          date: DateTime(2024, 1, 10, 11, 30),
+        ),
+      ],
     ),
     // New dangerous blood glucose test for Luna
     TestResult(
@@ -111,6 +175,20 @@ class PetRecordsRepository {
         HistoricalValue(date: DateTime(2023, 10, 1), value: 180.0),
         HistoricalValue(date: DateTime(2023, 12, 1), value: 350.0),
       ],
+      statusHistory: [
+        TestStatus(
+          type: TestStatusType.ordered,
+          date: DateTime(2024, 2, 1, 8, 0),
+        ),
+        TestStatus(
+          type: TestStatusType.processing,
+          date: DateTime(2024, 2, 1, 9, 30),
+        ),
+        TestStatus(
+          type: TestStatusType.complete,
+          date: DateTime(2024, 2, 1, 10, 45),
+        ),
+      ],
     ),
     // Duck test results
     TestResult(
@@ -124,6 +202,16 @@ class PetRecordsRepository {
       maxRange: 0.0,
       date: DateTime(2024, 1, 25),
       veterinarian: 'Dr. Brown',
+      statusHistory: [
+        TestStatus(
+          type: TestStatusType.ordered,
+          date: DateTime(2024, 1, 25, 11, 0),
+        ),
+        TestStatus(
+          type: TestStatusType.processing,
+          date: DateTime(2024, 1, 25, 12, 0),
+        ),
+      ],
     ),
   ];
 

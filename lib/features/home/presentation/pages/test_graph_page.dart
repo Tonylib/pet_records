@@ -14,7 +14,7 @@ class TestGraphPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final allValues = [
-      ...testResult.historicalValues,
+      ...?testResult.historicalValues,
       HistoricalValue(date: testResult.date, value: testResult.value),
     ]..sort((a, b) => a.date.compareTo(b.date));
 
@@ -27,8 +27,14 @@ class TestGraphPage extends StatelessWidget {
     // Calculate nice round numbers for the axis
     final yMin = ((minValue - valueRange * 0.2) / 10).floor() * 10.0;
     final yMax = ((maxValue + valueRange * 0.2) / 10).ceil() * 10.0;
-    final yInterval =
-        ((yMax - yMin) / 6).round() / 2 * 10.0; // Ensure it's a multiple of 10
+
+    // Ensure we have a non-zero interval
+    final yInterval = valueRange == 0
+        ? (yMax - yMin) / 5 // Default to 5 divisions if all values are the same
+        : ((yMax - yMin) / 6).round() / 2 * 10.0; // Normal case
+
+    // Ensure minimum interval of 1.0
+    final finalYInterval = yInterval < 1.0 ? 1.0 : yInterval;
 
     return Scaffold(
       appBar: AppBar(
@@ -53,7 +59,7 @@ class TestGraphPage extends StatelessWidget {
                     show: true,
                     drawVerticalLine: true,
                     drawHorizontalLine: true,
-                    horizontalInterval: yInterval,
+                    horizontalInterval: finalYInterval,
                     verticalInterval: 1,
                     getDrawingHorizontalLine: (value) {
                       return FlLine(
@@ -70,7 +76,7 @@ class TestGraphPage extends StatelessWidget {
                       );
                     },
                     checkToShowHorizontalLine: (value) {
-                      return value % yInterval == 0;
+                      return value % finalYInterval == 0;
                     },
                     checkToShowVerticalLine: (value) {
                       return value.toInt() < allValues.length;
@@ -102,9 +108,9 @@ class TestGraphPage extends StatelessWidget {
                       sideTitles: SideTitles(
                         showTitles: true,
                         reservedSize: 50,
-                        interval: yInterval,
+                        interval: finalYInterval,
                         getTitlesWidget: (value, meta) {
-                          if (value % yInterval == 0) {
+                          if (value % finalYInterval == 0) {
                             return Padding(
                               padding: const EdgeInsets.only(right: 8.0),
                               child: Text(

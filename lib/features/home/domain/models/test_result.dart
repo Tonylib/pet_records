@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class TestResult {
   final String id;
   final String petId;
@@ -9,7 +11,8 @@ class TestResult {
   final double maxRange;
   final DateTime date;
   final String veterinarian;
-  final List<HistoricalValue> historicalValues;
+  final List<HistoricalValue>? historicalValues;
+  final List<TestStatus> statusHistory;
 
   const TestResult({
     required this.id,
@@ -22,11 +25,14 @@ class TestResult {
     required this.maxRange,
     required this.date,
     required this.veterinarian,
-    this.historicalValues = const [],
+    this.historicalValues,
+    this.statusHistory = const [],
   });
 
   bool get isNormal => value >= minRange && value <= maxRange;
-  bool get hasHistoricalData => historicalValues.isNotEmpty;
+  bool get hasHistoricalData => historicalValues?.isNotEmpty ?? false;
+  TestStatus? get currentStatus =>
+      statusHistory.isNotEmpty ? statusHistory.last : null;
 
   // Helper methods for range calculations
   double get range => maxRange - minRange;
@@ -99,4 +105,33 @@ class HistoricalValue {
 
   @override
   int get hashCode => Object.hash(date, value);
+}
+
+enum TestStatusType {
+  ordered(Color(0xFF2196F3)),
+  processing(Color(0xFFFF9800)),
+  error(Color(0xFFF44336)),
+  complete(Color(0xFF4CAF50));
+
+  final Color color;
+  const TestStatusType(this.color);
+}
+
+class TestStatus {
+  final TestStatusType type;
+  final DateTime date;
+
+  const TestStatus({
+    required this.type,
+    required this.date,
+  });
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is TestStatus && other.type == type && other.date == date;
+  }
+
+  @override
+  int get hashCode => Object.hash(type, date);
 }
