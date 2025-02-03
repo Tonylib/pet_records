@@ -3,19 +3,19 @@ class Pet {
   final String name;
   final String species;
   final String breed;
-  final int age;
+  final DateTime dateOfBirth;
 
   const Pet({
     required this.id,
     required this.name,
     required this.species,
     required this.breed,
-    required this.age,
+    required this.dateOfBirth,
   });
 
   @override
   String toString() =>
-      'Pet(id: $id, name: $name, species: $species, breed: $breed, age: $age)';
+      'Pet(id: $id, name: $name, species: $species, breed: $breed, dateOfBirth: $dateOfBirth)';
 
   @override
   bool operator ==(Object other) {
@@ -25,9 +25,9 @@ class Pet {
         other.name == name &&
         other.species == species &&
         other.breed == breed &&
-        other.age == age;
+        other.dateOfBirth == dateOfBirth;
   }
 
   @override
-  int get hashCode => Object.hash(id, name, species, breed, age);
+  int get hashCode => Object.hash(id, name, species, breed, dateOfBirth);
 }

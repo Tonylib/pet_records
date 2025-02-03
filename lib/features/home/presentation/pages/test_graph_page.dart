@@ -62,14 +62,14 @@ class TestGraphPage extends StatelessWidget {
                     horizontalInterval: finalYInterval,
                     verticalInterval: 1,
                     getDrawingHorizontalLine: (value) {
-                      return FlLine(
+                      return const FlLine(
                         color: Colors.black12,
                         strokeWidth: 1,
                         dashArray: [5, 5],
                       );
                     },
                     getDrawingVerticalLine: (value) {
-                      return FlLine(
+                      return const FlLine(
                         color: Colors.black12,
                         strokeWidth: 1,
                         dashArray: [5, 5],
@@ -137,7 +137,7 @@ class TestGraphPage extends StatelessWidget {
                   maxY: yMax,
                   minX: -0.5,
                   maxX: allValues.length - 0.5,
-                  clipData: FlClipData.all(),
+                  clipData: const FlClipData.all(),
                   borderData: FlBorderData(
                     show: true,
                     border: Border.all(color: Colors.black12),
