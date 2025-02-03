@@ -122,59 +122,38 @@ class _TestResultsPageState extends State<TestResultsPage> {
                                 ),
                               ),
                               Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  if (test.hasHistoricalData)
-                                    const Icon(Icons.show_chart,
-                                        color: Colors.blue),
-                                  Text(
-                                    test.currentStatus?.type ==
-                                            TestStatusType.processing
-                                        ? 'Pending'
-                                        : test.result,
-                                    style: TextStyle(
-                                      color: test.currentStatus?.type ==
-                                              TestStatusType.processing
-                                          ? Colors.orange
-                                          : _getResultColor(test.result),
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  if (test.currentStatus != null)
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Transform.scale(
-                                          scale: 0.85,
-                                          child: Chip(
-                                            label: Text(
-                                              test.currentStatus!.type.name
-                                                  .toUpperCase(),
-                                              style: const TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 11,
-                                              ),
-                                            ),
-                                            backgroundColor:
-                                                test.currentStatus!.type.color,
-                                            materialTapTargetSize:
-                                                MaterialTapTargetSize
-                                                    .shrinkWrap,
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 2),
-                                            labelPadding:
-                                                const EdgeInsets.symmetric(
-                                                    horizontal: 8),
-                                          ),
+                                  Row(
+                                    children: [
+                                      if (test.hasHistoricalData)
+                                        const Padding(
+                                          padding: EdgeInsets.only(right: 8.0),
+                                          child: Icon(Icons.show_chart,
+                                              color: Colors.blue),
                                         ),
-                                      ],
-                                    ),
+                                      Text(
+                                        test.currentStatus?.type ==
+                                                TestStatusType.processing
+                                            ? 'Pending'
+                                            : test.result,
+                                        style: TextStyle(
+                                          color: test.currentStatus?.type ==
+                                                  TestStatusType.processing
+                                              ? Colors.orange
+                                              : _getResultColor(test.result),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ],
                               ),
                             ],
                           ),
                           const SizedBox(height: 12),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Expanded(
                                 child: Column(
@@ -199,6 +178,29 @@ class _TestResultsPageState extends State<TestResultsPage> {
                                   ],
                                 ),
                               ),
+                              if (test.currentStatus != null)
+                                Transform.scale(
+                                  scale: 0.85,
+                                  child: Chip(
+                                    label: Text(
+                                      test.currentStatus!.type.name
+                                          .toUpperCase(),
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 11,
+                                      ),
+                                    ),
+                                    backgroundColor:
+                                        test.currentStatus!.type.color,
+                                    materialTapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 2),
+                                    labelPadding: const EdgeInsets.symmetric(
+                                        horizontal: 8),
+                                  ),
+                                ),
                             ],
                           ),
                         ],
