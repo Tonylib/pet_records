@@ -1,16 +1,52 @@
 # pet_records
 
-A new Flutter project.
+This repository contains a prototype Flutter application designed to help Veternarians view and track patients and their medical test results in an intuitive and user-friendly way. The app provides a clear visualization of test history, trends, and current health status, making it easier for Veternarians to stay updated on their patients' health and test results.
 
-## Getting Started
+What makes this codebase unique is its commitment to self-documenting code principles. Every piece of code is written with clarity and readability in mind, making it accessible not only to developers but also to non-technical stakeholders. The codebase serves as an example of how technical implementations can be structured and named in a way that tells a story, making the business logic and user workflows immediately apparent to anyone reading the code. From descriptive widget names like `TestResultCard` and `GreetingWidget` to well-organized feature modules, the code structure itself acts as living documentation of the application's functionality.
 
-This project is a starting point for a Flutter application.
+Code Structure:
 
-A few resources to get you started if this is your first Flutter project:
+- `lib/main.dart`: The entry point for the application.
+- `lib/pet_records_app.dart`: The widget for the application.
+- `lib/core`: Core functionality such as theme, constants, and utility functions.
+- `lib/features`: Feature-specific code including widgets, pages, and controllers.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+lib/main.dart is the entry point for the application. It uses the `PetRecordsApp` widget to start the application.
+lib/pet_records_app.dart contains the widget `PetRecordsApp` that sets up the app's theme, routing, and other configurations.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Walkthrough:
+Start the application to see the Greeting.
+
+When the 'Continue' button is clicked, the user is navigated to the `TestResultsPage` page. This page displays a list of test results for the patients of the Veternarian.
+ - No endpoint is called, instead the data is featched from a hardcoded data structure in the PetRecordsRepository.
+ - A delay is added to the data fetching to simulate a network request.
+
+There is a row of filters above the list of test results. These filters allow the user to filter the test results by status.
+
+Each test result is displayed in a `TestResultCard` widget. This widget displays the test name, value, unit, and status.
+
+If historical data is available, the `TestResultCard` widget will display a chart of the test results when tapped.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
