@@ -45,15 +45,10 @@ Run the tests using the command `flutter test`. The test suite currently include
 
 * AI Use Disclaimer: I used AI to help write the code for this project. Specifically the Curser IDE. Currently, AI does not produce this clean code, it took many hours of hand crafting, clean-up and refactoring. AI just saved me the typing.
 
-
-
-
-
-
-
-
-
-
+# Screenshots
+<img src="https://github.com/user-attachments/assets/a10268aa-cfe6-40d3-8adf-1903b02c2177" width="300">
+<img src="https://github.com/user-attachments/assets/f89e3ef1-f8fa-4146-9c40-1f24706586f1" width="300">
+<img src="https://github.com/user-attachments/assets/3cacaa86-b13b-4c2e-8e3e-7e94ed2dbe83" width="300">
 
 
 
