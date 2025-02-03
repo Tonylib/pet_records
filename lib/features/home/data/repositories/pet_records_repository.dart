@@ -1,33 +1,34 @@
+import 'package:flutter/material.dart';
 import '../../domain/models/pet.dart';
 import '../../domain/models/test_result.dart';
 
 class PetRecordsRepository {
   // Mock data for pets
   final List<Pet> _pets = [
-    const Pet(
+    Pet(
       id: 'dog1',
       name: 'Max',
       species: 'Dog',
       breed: 'Golden Retriever',
-      age: 5,
+      dateOfBirth: DateTime(2019, 2, 1), // Setting birth date to match age 5
     ),
-    const Pet(
+    Pet(
       id: 'cat1',
       name: 'Luna',
       species: 'Cat',
       breed: 'Siamese',
-      age: 3,
+      dateOfBirth: DateTime(2021, 2, 1), // Setting birth date to match age 3
     ),
-    const Pet(
+    Pet(
       id: 'duck1',
       name: 'Donald',
       species: 'Duck',
       breed: 'Mallard',
-      age: 2,
+      dateOfBirth: DateTime(2022, 2, 1), // Setting birth date to match age 2
     ),
   ];
 
-  // Mock data for test results
+  // Mock test results data
   final List<TestResult> _testResults = [
     // New ordered tests
     TestResult(
@@ -266,21 +267,33 @@ class PetRecordsRepository {
           type: TestStatusType.processing,
           date: DateTime(2024, 1, 25, 12, 0),
         ),
+        TestStatus(
+          type: TestStatusType.complete,
+          date: DateTime(2024, 1, 25, 13, 30),
+        ),
       ],
     ),
   ];
 
   // Get all test results
-  List<TestResult> getAllTestResults() => List.unmodifiable(_testResults);
+  Future<List<TestResult>> getAllTestResults() async {
+    // Simulate network delay
+    await Future.delayed(const Duration(seconds: 2));
+    return _testResults;
+  }
 
   // Get all pets
   List<Pet> getAllPets() => List.unmodifiable(_pets);
 
   // Get a specific pet by ID
-  Pet getPetById(String id) => _pets.firstWhere(
-        (pet) => pet.id == id,
-        orElse: () => throw Exception('Pet not found'),
-      );
+  Future<Pet> getPetById(String id) async {
+    // Simulate network delay
+    await Future.delayed(const Duration(milliseconds: 500));
+    return _pets.firstWhere(
+      (pet) => pet.id == id,
+      orElse: () => throw Exception('Pet not found'),
+    );
+  }
 
   // Get all test results for a specific pet
   List<TestResult> getTestResultsForPet(String petId) =>
