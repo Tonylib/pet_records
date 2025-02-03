@@ -29,6 +29,61 @@ class PetRecordsRepository {
 
   // Mock data for test results
   final List<TestResult> _testResults = [
+    // New ordered tests
+    TestResult(
+      id: 'test7',
+      petId: 'dog1',
+      testName: 'Heartworm Test',
+      result: 'Pending',
+      unit: 'titer',
+      value: 0.0,
+      minRange: 0.0,
+      maxRange: 0.0,
+      date: DateTime(2024, 2, 2),
+      veterinarian: 'Dr. Smith',
+      statusHistory: [
+        TestStatus(
+          type: TestStatusType.ordered,
+          date: DateTime(2024, 2, 2, 14, 0),
+        ),
+      ],
+    ),
+    TestResult(
+      id: 'test8',
+      petId: 'cat1',
+      testName: 'Toxoplasmosis Screen',
+      result: 'Pending',
+      unit: 'titer',
+      value: 0.0,
+      minRange: 0.0,
+      maxRange: 0.0,
+      date: DateTime(2024, 2, 2),
+      veterinarian: 'Dr. Wilson',
+      statusHistory: [
+        TestStatus(
+          type: TestStatusType.ordered,
+          date: DateTime(2024, 2, 2, 13, 30),
+        ),
+      ],
+    ),
+    TestResult(
+      id: 'test9',
+      petId: 'duck1',
+      testName: 'Duck Virus Enteritis',
+      result: 'Pending',
+      unit: 'titer',
+      value: 0.0,
+      minRange: 0.0,
+      maxRange: 0.0,
+      date: DateTime(2024, 2, 2),
+      veterinarian: 'Dr. Brown',
+      statusHistory: [
+        TestStatus(
+          type: TestStatusType.ordered,
+          date: DateTime(2024, 2, 2, 15, 0),
+        ),
+      ],
+    ),
     // Dog test results
     TestResult(
       id: 'test1',
@@ -214,6 +269,9 @@ class PetRecordsRepository {
       ],
     ),
   ];
+
+  // Get all test results
+  List<TestResult> getAllTestResults() => List.unmodifiable(_testResults);
 
   // Get all pets
   List<Pet> getAllPets() => List.unmodifiable(_pets);
