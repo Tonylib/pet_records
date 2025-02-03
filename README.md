@@ -43,7 +43,7 @@ The application includes a comprehensive test suite that covers both the data an
 
 Run the tests using the command `flutter test`. The test suite currently includes 17 tests that verify core functionality, data handling, and user interactions. All tests are designed to be readable and maintainable, following the same self-documenting principles as the main codebase.
 
-
+* AI Use Disclaimer: I used AI to help write the code for this project. Specifically the Curser IDE. Currently, AI does not produce this clean code, it took many hours of hand crafting, clean-up and refactoring. AI just saved me the typing.
 
 
 
