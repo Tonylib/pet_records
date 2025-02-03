@@ -1,5 +1,7 @@
 # pet_records
 
+https://github.com/Tonylib/pet_records/blob/main/.github/assets/petRecordsDemo.webm
+
 This repository contains a prototype Flutter application designed to help Veternarians view and track patients and their medical test results in an intuitive and user-friendly way. The app provides a clear visualization of test history, trends, and current health status, making it easier for Veternarians to stay updated on their patients' health and test results.
 
 What makes this codebase unique is its commitment to self-documenting code principles. Every piece of code is written with clarity and readability in mind, making it accessible not only to developers but also to non-technical stakeholders. The codebase serves as an example of how technical implementations can be structured and named in a way that tells a story, making the business logic and user workflows immediately apparent to anyone reading the code. From descriptive widget names like `TestResultCard` and `GreetingWidget` to well-organized feature modules, the code structure itself acts as living documentation of the application's functionality.
