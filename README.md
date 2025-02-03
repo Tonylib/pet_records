@@ -27,6 +27,14 @@ Each test result is displayed in a `TestResultCard` widget. This widget displays
 
 If historical data is available, the `TestResultCard` widget will display a chart of the test results when tapped.
 
+# Testing
+
+The application includes a comprehensive test suite that covers both the data and presentation layers. The tests are organized to mirror the application's structure, making them easy to locate and maintain. Key test coverage includes:
+
+- **Repository Tests** (`test/features/home/data/repositories/pet_records_repository_test.dart`): Verify the correct handling of test result data, including fetching and filtering operations.
+- **Controller Tests** (`test/features/home/presentation/controllers/test_results_controller_test.dart`): Ensure proper state management and business logic in the presentation layer, including filter operations and data transformations.
+
+Run the tests using the command `flutter test`. The test suite currently includes 17 tests that verify core functionality, data handling, and user interactions. All tests are designed to be readable and maintainable, following the same self-documenting principles as the main codebase.
 
 
 
