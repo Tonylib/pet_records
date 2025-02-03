@@ -1,6 +1,7 @@
 # pet_records
 
-https://raw.githubusercontent.com/Tonylib/pet_records/main/.github/assets/petRecordsDemo.mp4
+<video src="https://github.com/Tonylib/pet_records/blob/main/.github/assets/petRecordsDemo.mp4" controls="controls" muted="muted" playsinline="playsinline">
+</video>
 
 This repository contains a prototype Flutter application designed to help Veternarians view and track patients and their medical test results in an intuitive and user-friendly way. The app provides a clear visualization of test history, trends, and current health status, making it easier for Veternarians to stay updated on their patients' health and test results.
 
